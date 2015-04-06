@@ -29,6 +29,7 @@ $(document).ready(function() {
 				}
 			}
 			if(w.length > 0) {
+				$("#answer").text(w);
 				$(window).trigger(e, {"answer":w});
 			}
 		};
@@ -47,6 +48,7 @@ $(document).ready(function() {
 			}, 5000);
         };
         speechSynthesis.speak(u1);
+        $("#question").text(words);
 	}
 
 	function ask_concept(recog) {
