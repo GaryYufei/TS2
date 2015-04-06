@@ -7,6 +7,7 @@ $(document).ready(function() {
 		$("#status").text("Good");
 	}
 
+
 	events = {};
 	events.domainAnswerEvent = "domain-name";
 	events.initConceptsAnswerEvent = "init-concepts-questions";
@@ -15,12 +16,20 @@ $(document).ready(function() {
 	events.newConcept = "new-concept";
 	voices = window.speechSynthesis.getVoices();
 
+	var recognition = new webkitSpeechRecognition();
+	recognition.continuous = true;
+	recognition.interimResults = true;
+
 	var domain_name;
 	var queue = [];
 	var init_concepts;
 	var current_concepts;
+	var current_question;
+	var next_event;
 
 	function ask(words, recog, e) {
+		current_question = words;
+		next_event = e;
 		recog.onresult = function(event) {
 			var w = "";
 			for(var i = event.resultIndex; i < event.results.length; i++) {
@@ -30,7 +39,6 @@ $(document).ready(function() {
 			}
 			if(w.length > 0) {
 				$("#answer").text(w);
-				$(window).trigger(e, {"answer":w});
 			}
 		};
 		var u1 = new SpeechSynthesisUtterance(words);
@@ -51,15 +59,21 @@ $(document).ready(function() {
         $("#question").text(words);
 	}
 
+	$("#next").click(function(e){
+		var answer = $("#answer").text();
+		$(window).trigger(next_event, {"answer":answer});
+	});
+
+	$("#redo").click(function(e){
+		$("#answer").text("");
+		ask(current_question, recognition, next_event);
+	});
+
 	function ask_concept(recog) {
 		current_concepts = queue.shift();
 		var question = "What do " + current_concepts.cA + " and " + current_concepts.cB + " have in common that " + current_concepts.d + " does not have";
 		ask(question,recog,events.newConcept);
 	}
-
-	var recognition = new webkitSpeechRecognition();
-	recognition.continuous = true;
-	recognition.interimResults = true;
 
 	$(window).on(events.domainAnswerEvent, function(e,d){
 		var question = "Name three concepts that are important in the context of ";
