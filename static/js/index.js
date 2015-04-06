@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 	$(window).on(events.initConceptsAnswerEvent, function(e,d){
 		var question = "Are these different concepts";
-		ask(question, recongition, events.comfirmDifferentAnswerEvent);
+		ask(question, recognition, events.comfirmDifferentAnswerEvent);
 	});
 
 	$(window).on(events.comfirmDifferentAnswerEvent, function(e,d){
