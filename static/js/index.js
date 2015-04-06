@@ -2,6 +2,7 @@ $(document).ready(function() {
 	events = {};
 	events.domainAnswerEvent = "domain-name";
 	events.initConceptsAnswerEvent = "init-concepts-questions";
+	events.comfirmDifferentAnswerEvent = "comfirm-different-answer";
 	voices = window.speechSynthesis.getVoices();
 
 	function ask(words, recog, e) {
@@ -46,13 +47,19 @@ $(document).ready(function() {
 	recognition.interimResults = true;
 
 	$(window).on(events.domainAnswerEvent, function(e,d){
-		console.log(d);
 		var question = "Name three concepts that are important in the context of ";
 		ask(question + d.answer, recognition, events.initConceptsAnswerEvent);
 	});
 
 	$(window).on(events.initConceptsAnswerEvent, function(e,d){
-		alert(d.answer);
+		var question = "Are these different concepts";
+		ask(question, recongition, events.comfirmDifferentAnswerEvent);
+	});
+
+	$(window).on(events.comfirmDifferentAnswerEvent, function(e,d){
+		if(d.answer.toLowerCase() == "yes") {
+			alert("yes");
+		}
 	});
 
 	$("#start").click(function(event) {
