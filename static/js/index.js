@@ -3,8 +3,6 @@ $(document).ready(function() {
 	if ((!('webkitSpeechRecognition' in window)) || (!('webkitSpeechRecognition' in window))) {
 		$("#status").text("please use Google chrome");
 		return;
-	} else {
-		$("#status").text("Good");
 	}
 
 
@@ -26,6 +24,7 @@ $(document).ready(function() {
 	var current_concepts;
 	var current_question;
 	var next_event;
+	var waitingSpeech;
 
 	function ask(words, recog, e) {
 		current_question = words;
@@ -39,6 +38,8 @@ $(document).ready(function() {
 			}
 			if(w.length > 0) {
 				$("#answer").text(w);
+				$("#redo").removeAttr('disabled');
+				$("#next").removeAttr('disabled');
 			}
 		};
 		var u1 = new SpeechSynthesisUtterance(words);
@@ -51,9 +52,9 @@ $(document).ready(function() {
         u1.onend = function(event) {
         	recognition.lang = 0;
 			recognition.start();
-			setTimeout(function() {
-				recognition.stop();
-			}, 5000);
+			waitingSpeech = setTimeout(function() {
+								recognition.stop();
+							}, 5000);
         };
         speechSynthesis.speak(u1);
         $("#question").text(words);
@@ -61,12 +62,17 @@ $(document).ready(function() {
 
 	$("#next").click(function(e){
 		var answer = $("#answer").text();
+		$("#answer").text("");
 		$(window).trigger(next_event, {"answer":answer});
+		$("#redo").attr('disabled','disabled');
+		$("#next").attr('disabled','disabled');
 	});
 
 	$("#redo").click(function(e){
 		$("#answer").text("");
 		ask(current_question, recognition, next_event);
+		$("#redo").attr('disabled','disabled');
+		$("#next").attr('disabled','disabled');
 	});
 
 	function ask_concept(recog) {
@@ -109,7 +115,22 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#end").click(function(event){
+		domain_name = "";
+		queue = [];
+		init_concepts = "";
+		current_concepts = "";
+		current_question = "";
+		next_event = "";
+		$("#answer").text("");
+		$("#question").text("");
+		clearTimeout(waitingSpeech);
+		recognition.stop();
+	});
+
 	$("#start").click(function(event) {
 		ask("what would you like to work on",recognition, events.domainAnswerEvent);
+		$("#end").removeAttr('disabled');
+
 	});    
 });

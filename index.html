@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>TS2</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="static/js/index.js"></script>
 </head>
@@ -11,11 +12,54 @@
 
 		<div id="audio"></div>
 
-		<button id="start">start123</button>
+		<div class="container" style="max-width:700px;padding:0px;margin-top:5px;">
+			<div class="clearfix" style="padding-bottom: 20px;border-bottom: 1px solid #e5e5e5;">
+		        <nav>
+		          <ul class="nav nav-pills pull-right">
+		            <li role="presentation" class="active"><a href="#">Home</a></li>
+		            <li role="presentation"><a href="#">About</a></li>
+		            <li role="presentation"><a href="#">Contact</a></li>
+		          </ul>
+		        </nav>
+		        <h3 class="text-muted" style="margin-top: 0;margin-bottom: 0;line-height: 40px;">T2S</h3>
+		    </div>
 
-		<div id="question"></div>
-		<div id="answer"></div>
-		<button id="redo">redo</button>
-		<button id="next">next</button>
+			<div class="jumbotron" style="margin-top:20px;text-align:center;">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Question</h4>
+					</div>
+					<div class="col-md-9">
+						<div id="question" style="min-height:30px; font-size:25px;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Answer</h4>
+					</div>
+					<div class="col-md-9">
+						<div id="answer" style="min-height:30px; font-size:25px;"></div>
+					</div>
+				</div>
+				<div class="btn-group" role="group" style="margin:auto;">
+					<button class="btn btn-lg btn-success" id="start">start</button>
+					<button class="btn btn-lg btn-success" id="redo" disabled="disabled">redo</button>
+					<button class="btn btn-lg btn-success" id="next" disabled="disabled">next</button>
+					<button class="btn btn-lg btn-success" id="end" disabled="disabled">end</button>
+				</div>
+			</div>
+
+			<div>
+				<h3>User Guideline</h3>
+				<ul>
+					<li>This is a <Strong>demo system</strong> for text to speech and speech to text</li>
+					<li>The <kbd>start</kbd> button is to start the whole conversation</li>
+					<li>Users will be able to see the question and their own answer beside <Strong>Question</strong> and <Strong>Answer</strong></li>
+					<li>After answering each question, users can decide <kbd>redo</kbd> or <kbd>next</kbd> </li>
+					<li>Users should just speak out the answer, please do not use any other words <strong>(e.g. I think,and...)</strong></li>
+				</ul>
+			</div>
+		</div>
+		
 	</body>
 </html>
